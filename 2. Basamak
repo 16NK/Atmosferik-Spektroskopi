@@ -1,0 +1,26 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+wavelengths = list(map(float, input("Gezegenin dalga boyu verilerini virgülle ayırarak girin: ").split(',')))
+flux_values = list(map(float, input("Gezegenin akı değerlerini virgülle ayırarak girin: ").split(',')))
+
+if len(wavelengths) != len(flux_values):
+    raise ValueError("Dalga boyu ve akı verilerinin uzunlukları eşit olmalıdır.")
+
+minima_indices = (np.diff(np.sign(np.diff(flux_values))) > 0).nonzero()[0] + 1
+min_wavelengths = [wavelengths[i] for i in minima_indices]
+min_flux_values = [flux_values[i] for i in minima_indices]
+
+print("\n**Akı Değerinin En Düşük Olduğu Dalga Boyları:**")
+for wl, flux in zip(min_wavelengths, min_flux_values):
+    print(f"Dalga Boyu: {wl:.4f} µm, Akı: {flux:.4e}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(wavelengths, flux_values, marker='o', linestyle='-', color='b', label="Gezegen Spektrumu")
+plt.scatter(min_wavelengths, min_flux_values, color='r', marker='o', s=100, label="Akı Düşüş Noktaları")
+plt.xlabel("Dalga Boyu (µm)")
+plt.ylabel("Akı (Flux)")
+plt.title("Gezegen Spektrumu ve Akı Düşüş Noktaları")
+plt.grid(True)
+plt.legend()
+plt.show()
