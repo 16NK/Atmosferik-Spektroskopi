@@ -14,7 +14,7 @@ Not: Kod içerisinde bulunan yorum satırlarına göre analiz etmek istediğiniz
 **1. Kodun çıktısı:**
 Seçtiğiniz molekülün/bileşiğin geçiş yoğunluğunun en yüksek olduğu dalga boyu aralığını grafikte gösterir ve bu aralık değerini sayısal olarak ekrana yansıtır.
 
-![1. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/commit/1e1f9157e1e1daee356173203810bec11ec00264)
+![1. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/blob/main/H%C4%B1tran'dan%20Al%C4%B1nan%20H2O%20Ge%C3%A7i%C5%9F%20Yo%C4%9Funlu%C4%9Fu%20Spektrumu.png)
 ## 2. Basamak 
 - Bu kod, gezegene ait verileri kullanıcıdan alır.
 - Düşük akı noktalarını belirler.
@@ -32,7 +32,7 @@ Bu iki başlıktan alınan verilerin sayısı aynı olmalıdır.
 **2. Kodun çıktısı:**
 Bilgilerini girdiğiniz gezegenin akı değerinin en düşük olduğu dalga boylarını bir tablo halinde ekrana yansıtacak ve düşük akı değerlerini gezegenin spektrum grafiği üzerinde işaretlenmiş olarak gösterecektir.
 
-![2. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/commit/df49c97b1c17db784aa4a1c9d5ae56c76562c630)
+![2. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/blob/main/Gezegen%20Spektrumu%20ve%20Ak%C4%B1%20D%C3%BC%C5%9F%C3%BC%C5%9F%20Noktalar%C4%B1.png)
 ## 3. Basamak:
 - Birinci ve ikinci koddan gelen verileri analiz eder.
 - Gezegende belirlenen molekülün/bileşiğin var olup olmadığını kullanıcıya sunar.
@@ -67,4 +67,4 @@ Eğer analiz ettiğiniz molekül/bileşik gezegende tespit edilirse alacağını
 
 Örnek çıktı: "Dalga Boyu: 1.9033 µm, bu aralıkta element tespit edildi!"
 
-![2. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/commit/8b93f7f748c71ec227347d55f62c3d5787e0ab7b)
+![2. Kodun Çıktısı](https://github.com/16NK/Atmosferik-Spektroskopi/blob/main/Gezegen%20Spektrumunda%20%C4%B0lgili%20Elementin%20Tespit%20Edildi%C4%9Fi%20Aral%C4%B1k.png)
