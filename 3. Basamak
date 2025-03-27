@@ -1,0 +1,35 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+peak_range_input = input("1. kodun çıktısını (örnek: 1.90 - 1.91 µm) girin: ").replace(" µm", "")
+min_flux_wavelengths_input = input("2. kodun çıktısını (akı düşüş noktaları) virgülle ayırarak girin: ")
+wavelength_input = input("Gezegenin dalga boyu verilerini virgülle ayırarak girin: ")
+flux_input = input("Gezegenin akı değerlerini virgülle ayırarak girin: ")
+
+peak_min, peak_max = map(float, peak_range_input.split(" - "))
+min_flux_wavelengths = list(map(float, min_flux_wavelengths_input.split(',')))
+wavelengths = np.array(list(map(float, wavelength_input.split(','))))  
+flux_values = np.array(list(map(float, flux_input.split(','))))  
+
+margin = 0.005
+detected_wavelengths = [wl for wl in min_flux_wavelengths if (peak_min - margin) <= wl <= (peak_max + margin)]
+
+if detected_wavelengths:
+    print("\n Molekül/Bileşik tespit edildi!")
+    for wl in detected_wavelengths:
+        print(f"Dalga Boyu: {wl:.4f} µm, bu aralıkta element tespit edildi!")
+else:
+    print("\nBilgileri girilen gezegende aradığınız elemente rastlanmamıştır.")
+
+nearest_flux_values = [flux_values[np.abs(wavelengths - wl).argmin()] for wl in detected_wavelengths]
+
+plt.figure(figsize=(10, 6))
+plt.plot(wavelengths, flux_values, marker='o', linestyle='-', color='b', label="Gezegen Spektrumu")
+if detected_wavelengths:
+    plt.scatter(detected_wavelengths, nearest_flux_values, color='r', marker='o', s=100, label="Element Tespit Edildi!")
+plt.xlabel("Dalga Boyu (µm)")
+plt.ylabel("Akı (Flux)")
+plt.title("Gezegen Spektrumu ve Element Tespiti")
+plt.grid(True)
+plt.legend()
+plt.show()
