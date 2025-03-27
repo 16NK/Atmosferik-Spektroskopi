@@ -1,0 +1,65 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import sys
+import io
+from hapi import *
+
+def wavelength_to_wavenumber(wavelength):
+    return 1e4 / wavelength
+
+planet_wavelengths = list(map(float, input("Gezegenin dalga boyu verilerini virgül ile ayırarak girin: ").split(",")))
+
+min_wavelength = min(planet_wavelengths)
+max_wavelength = max(planet_wavelengths)
+
+min_wavenumber = wavelength_to_wavenumber(max_wavelength)
+max_wavenumber = wavelength_to_wavenumber(min_wavelength)
+
+fetch('H2O', 1, 1, min_wavenumber, max_wavenumber)  #İstediğiniz bileşiğin veya molekülün Molecul ID numarasını HiTRAN Line by Line bölümünden alıp spektroskopik analizinizi gerçekleştirebilirsiniz.
+# Molekül isminden sonraki değer molecul ID'dir.
+sys.stdout = io.StringIO()  
+select('H2O', ParameterNames=('nu', 'sw'), Conditions=('between', 'nu', min_wavenumber, max_wavenumber))
+output = sys.stdout.getvalue()  
+sys.stdout = sys.__stdout__  
+
+lines = output.strip().split("\n")
+nu_values = []
+sw_values = []
+
+for line in lines:
+    values = line.split()  
+    if len(values) == 2:  
+        try:
+            nu_values.append(float(values[0]))  
+            sw_values.append(float(values[1]))  
+        except ValueError:
+            continue  
+
+def wavenumber_to_wavelength(nu):
+    return 1e4 / nu
+
+wavelength_values = [wavenumber_to_wavelength(nu) for nu in nu_values]
+
+df = pd.DataFrame({
+    "Dalga Sayısı (cm⁻¹)": nu_values,
+    "Dalga Boyu (µm)": wavelength_values,
+    "Geçiş Yoğunluğu (sw)": sw_values
+})
+
+max_sw = max(sw_values)
+thresh = max_sw * 0.8  
+peak_df = df[df["Geçiş Yoğunluğu (sw)"] >= thresh]
+peak_min = peak_df["Dalga Boyu (µm)"].min()
+peak_max = peak_df["Dalga Boyu (µm)"].max()
+
+print(f"\n **En Yüksek Geçiş Yoğunluğu Dalga Boyu Aralığı: {peak_min:.2f} - {peak_max:.2f} µm**")
+
+plt.figure(figsize=(10, 6))
+plt.plot(df["Dalga Boyu (µm)"], df["Geçiş Yoğunluğu (sw)"], marker='o', linestyle='-', color='g', label="Geçiş Yoğunluğu (sw)")
+plt.xlabel("Dalga Boyu (µm)")
+plt.ylabel("Geçiş Yoğunluğu (sw)")
+plt.title("HITRAN'dan Alınan H₂O Geçiş Yoğunluğu Spektrumu (Dalga Boyu)")
+plt.axvspan(peak_min, peak_max, color='r', alpha=0.3, label="En Yüksek Yoğunluk Bölgesi")
+plt.grid(True)
+plt.legend()
+plt.show()
